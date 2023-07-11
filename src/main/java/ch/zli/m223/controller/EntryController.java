@@ -4,11 +4,14 @@ import java.util.List;
 
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import javax.xml.bind.ValidationException;
 
 import org.eclipse.microprofile.openapi.annotations.Operation;
 import org.eclipse.microprofile.openapi.annotations.tags.Tag;
@@ -34,8 +37,30 @@ public class EntryController {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Operation(summary = "Creates a new entry.", description = "Creates a new entry and returns the newly added entry.")
-    public Entry create(Entry entry) {
-       return entryService.createEntry(entry);
+    public Entry create(Entry entry) throws ValidationException {
+        validateEntryTimes(entry);
+        return entryService.createEntry(entry);
+    }
+
+    @PUT
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Operation(summary = "Updates an existing entry.", description = "Updates the specified entry and returns the updated entry.")
+    public Entry update(Entry entry) throws ValidationException {
+        validateEntryTimes(entry);
+        return entryService.updateEntry(entry);
+    }
+
+    @DELETE
+    @Operation(summary = "Deletes an entry.", description = "Deletes the entry with the specified ID.")
+    public void delete(Entry entry){
+        entryService.deleteEntry(entry);
+    }
+
+    public void validateEntryTimes(Entry entry) throws ValidationException {
+        if (entry.getCheckIn().isAfter(entry.getCheckOut())) {
+            throw new ValidationException("Check-in time must be before the check-out time.");
+        }
     }
 
 }
