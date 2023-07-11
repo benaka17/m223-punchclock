@@ -49,4 +49,22 @@ public class Entry {
   public void setCheckOut(LocalDateTime checkOut) {
     this.checkOut = checkOut;
   }
+
+  public Category getCategory() {
+    return category;
+  }
+
+  public void setCategory(Category category) {
+    this.category = category;
+  }
+
+  public List<Tag> getTags() {
+    return tags;
+  }
+
+  public void setTags(List<Tag> tags) {
+    this.tags = tags;
+  }
+
+  
 }

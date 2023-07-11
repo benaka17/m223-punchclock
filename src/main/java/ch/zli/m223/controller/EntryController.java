@@ -53,7 +53,7 @@ public class EntryController {
     }
 
     @DELETE
-    @Path("{id}")
+    @Path("/{id}")
     @Operation(summary = "Deletes an entry.", description = "Deletes the entry with the specified ID.")
     public void delete(@PathParam("id") int id){
         entryService.deleteEntry(id);
