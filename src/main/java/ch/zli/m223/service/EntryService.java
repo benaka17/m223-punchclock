@@ -31,8 +31,9 @@ public class EntryService {
     }
 
     @Transactional
-    public void deleteEntry(Entry entry) {
-        Entry managedEntry = entityManager.merge(entry);
-        entityManager.remove(managedEntry);
+    public void deleteEntry(int id) {
+        var query = entityManager.createQuery("FROM Entry WHERE id=" + id, Entry.class);
+        Entry entry = query.getSingleResult();
+        entityManager.remove(entry);
     }
 }

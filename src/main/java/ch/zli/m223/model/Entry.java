@@ -5,6 +5,7 @@ import javax.persistence.*;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 public class Entry {
@@ -12,6 +13,12 @@ public class Entry {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Schema(readOnly = true)
   private Long id;
+
+  @ManyToOne
+  private Category category;
+
+  @ManyToMany
+  private List<Tag> tags;
 
   @Column(nullable = false)
   private LocalDateTime checkIn;
